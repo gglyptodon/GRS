@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;      //Allows us to use SceneManager
 public class Player : MovingObject
 {
 	public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
-	public int pointsPerFood = 10;              //Number of points to add to player food points when picking up a food object.
-	public int pointsPerSoda = 20;              //Number of points to add to player food points when picking up a soda object.
-	public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
-
+	public int pointsPerAlcohol = 5;              //Number of points to add to player drunkenness points when picking up a alcohol drink object.
+	public int pointsPerTaxes = 5;              //Number of points to add to player food points when picking up a taxes object.
+    public int pointsPerWall = 5;               // Number of points to take from drunkenness and add to sanity when smashing walls
+    public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
 	private Animator animator;                  //Used to store a reference to the Player's animator component.
-	private int food;                           //Used to store player food points total during level.
+	private int drunkenness;                           //Used to store player drunkenness points total during level.
+    private int sanity;                         // Stores sanity points during level
+    private int newforms;                       // Stores forms collected just during level. (or will...)
 
 	//Start overrides the Start function of MovingObject
 	protected override void Start ()
@@ -19,9 +21,10 @@ public class Player : MovingObject
 		//Get a component reference to the Player's animator component
 		animator = GetComponent<Animator>();
 
-		//Get the current food point total stored in GameManager.instance between levels.
-		food = GameManager.instance.playerAlcoholPoints;
-
+		//Get the current drunkenness point total stored in GameManager.instance between levels.
+		drunkenness = GameManager.instance.playerAlcoholPoints;
+        //Same idea for sanity
+        sanity = GameManager.instance.playerSanity;
 		//Call the Start function of the MovingObject base class.
 		base.Start ();
 	}
@@ -30,8 +33,9 @@ public class Player : MovingObject
 	//This function is called when the behaviour becomes disabled or inactive.
 	private void OnDisable ()
 	{
-		//When Player object is disabled, store the current local food total in the GameManager so it can be re-loaded in next level.
-		GameManager.instance.playerAlcoholPoints = food;
+		//When Player object is disabled, store the current local drunkenness total in the GameManager so it can be re-loaded in next level.
+		GameManager.instance.playerAlcoholPoints = drunkenness;
+        GameManager.instance.playerSanity = sanity;
 	}
 
 
@@ -69,8 +73,9 @@ public class Player : MovingObject
 	//AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
 	protected override void AttemptMove <T> (int xDir, int yDir)
 	{
-		//Every time player moves, subtract from food points total.
-		food--;
+		//Every time player moves, subtract from drunkenness points total, add sanity.
+		drunkenness--;
+        sanity++;
 
 		//Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
 		base.AttemptMove <T> (xDir, yDir);
@@ -84,8 +89,6 @@ public class Player : MovingObject
 			//Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
 		}
 
-		//Since the player has moved and lost food points, check if the game has ended.
-		CheckIfGameOver ();
 
 		//Set the playersTurn boolean of GameManager to false now that players turn is over.
 		//GameManager.instance.playersTurn = false;
@@ -104,6 +107,9 @@ public class Player : MovingObject
 		animator.SetTrigger ("playerAttack");
 		//Call the DamageWall function of the Wall we are hitting.
 		hitWall.DamageWall (wallDamage);
+        // smashing things reduced drunkenness and increases sanity
+        sanity += pointsPerWall;
+        drunkenness -= pointsPerWall;
 
 	}
 
@@ -113,7 +119,7 @@ public class Player : MovingObject
 	private void OnTriggerEnter2D (Collider2D other)
 	{
 		//Check if the tag of the trigger collided with is Exit.
-		if(other.tag == "Exit")
+		if(other.tag == "TaxOffice")
 		{
 			//Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
 			Invoke ("Restart", restartLevelDelay);
@@ -122,24 +128,24 @@ public class Player : MovingObject
 			enabled = false;
 		}
 
-		//Check if the tag of the trigger collided with is Food.
-		else if(other.tag == "Food")
+		//Check if the tag of the trigger collided with is drunkenness.
+		else if(other.tag == "Alcohol") //todo check!
 		{
-			//Add pointsPerFood to the players current food total.
-			food += pointsPerFood;
-
-			//Disable the food object the player collided with.
+			//Add pointsPerAlcohol to the players current drunkenness total.
+			drunkenness += pointsPerAlcohol;
+            sanity += pointsPerAlcohol;
+			//Disable the drunkenness object the player collided with.
 			other.gameObject.SetActive (false);
 		}
 
-		//Check if the tag of the trigger collided with is Soda.
-		else if(other.tag == "Soda")
+		//Check if the tag of the trigger collided with is a tax form.
+		else if(other.tag == "Taxes")
 		{
-			//Add pointsPerSoda to players food points total
-			food += pointsPerSoda;
+			//Add pointsPerTaxes to players drunkenness points total
+			sanity -= pointsPerTaxes;
+            drunkenness -= pointsPerTaxes;
 
-
-			//Disable the soda object the player collided with.
+			//Disable the taxes object the player collided with.
 			other.gameObject.SetActive (false);
 		}
 	}
@@ -153,32 +159,36 @@ public class Player : MovingObject
 	}
 
 
-	//LoseFood is called when an enemy attacks the player.
+	//LoseDrunkenness is called when an enemy attacks the player.
 	//It takes a parameter loss which specifies how many points to lose.
-	public void LoseFood (int loss)
+    // can probably be deleted?
+	public void LoseDrunkenness (int loss)
 	{
 		//Set the trigger for the player animator to transition to the playerHit animation.
 		animator.SetTrigger ("playerHit");
 
-		//Subtract lost food points from the players total.
-		food -= loss;
+		//Subtract lost drunkenness points from the players total.
+		drunkenness -= loss;
 
 		//Check to see if game has ended.
 		CheckIfGameOver ();
 	}
 
 
-	//CheckIfGameOver checks if the player is out of food points and if so, ends the game.
+	//CheckIfGameOver checks if the player is out of drunkenness points and if so, ends the game.
 	private void CheckIfGameOver ()
 	{
-		//Check if food point total is less than or equal to zero.
-		if (food <= 0) 
+		//Check if drunkenness point total is less than or equal to zero.
+		if (drunkenness >= 100) 
 		{
-
 			//Call the GameOver function of GameManager.
 			GameManager.instance.GameOver ();
 		}
-	}
+        else if (sanity <= 0)
+        {
+            GameManager.instance.GameOver();
+        }
+    }
 
 
 
