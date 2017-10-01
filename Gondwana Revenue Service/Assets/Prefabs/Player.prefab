@@ -122,8 +122,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   restartLevelDelay: 1
-  pointsPerFood: 10
-  pointsPerSoda: 20
+  pointsPerAlcohol: 10
+  pointsPerTaxes: 1
   wallDamage: 1
 --- !u!212 &212487338379290658
 SpriteRenderer:
