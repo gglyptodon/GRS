@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Taxes
+  - Alcohol
+  - Border
+  - TaxOffice
   layers:
   - Default
   - TransparentFX
@@ -13,7 +17,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - BlockingLayer
   - 
   - 
   - 
@@ -40,4 +44,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Floor
+    uniqueID: 4023693787
+    locked: 0
+  - name: Items
+    uniqueID: 947072887
+    locked: 0
+  - name: Units
+    uniqueID: 2124772279
     locked: 0
