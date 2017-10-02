@@ -7,11 +7,10 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance = null;
 	public BoardManager boardScript;
 	public int playerAlcoholPoints = 0;
-    public int playerSanity = 100;
 	[HideInInspector] public bool playersTurn = true;
 
 	private int level = 3;
-	private List<Enemy> enemies = new List<Enemy>(); // had to init as i didnt put anything via gui
+	private List<Enemy> enemies;
 	private bool enemiesMoving;
 
 	// Use this for initialization
@@ -39,13 +38,7 @@ public class GameManager : MonoBehaviour {
             StartCoroutine (MoveEnemies ());
         }
 
- //Call this to add the passed in Enemy to the List of Enemy objects.
-        public void AddEnemyToList(Enemy script)
-        {
-            //Add Enemy to List enemies.
-            enemies.Add(script);
-        }
-	
+
 	public void GameOver (){
 		enabled = false;
 	}

@@ -11,6 +11,7 @@ public abstract class MovingObject : MonoBehaviour {
 	private Rigidbody2D rb2D;
 	private float inverseMoveTime;
 
+
 	protected virtual void Start(){
 		boxCollider = GetComponent<BoxCollider2D>();
 		rb2D = GetComponent<Rigidbody2D>();
@@ -24,6 +25,8 @@ public abstract class MovingObject : MonoBehaviour {
 		boxCollider.enabled = false;
 		hit = Physics2D.Linecast(start, end, blockingLayer);
 		boxCollider.enabled = true;
+		//todo flip sprite
+
 
 		if (hit.transform == null) {
 			StartCoroutine (SmoothMovement (end));
@@ -31,6 +34,8 @@ public abstract class MovingObject : MonoBehaviour {
 		}
 		return false;
 	}
+
+
 
 	protected virtual void AttemptMove<T> (int xDir, int yDir)
 		where T: Component
