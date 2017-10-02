@@ -124,7 +124,19 @@ MonoBehaviour:
   restartLevelDelay: 1
   pointsPerAlcohol: 10
   pointsPerTaxes: 1
+  pointsPerWall: 5
   wallDamage: 1
+  playerSanityText: {fileID: 0}
+  playerAlcoholPointsText: {fileID: 0}
+  drinkSound1: {fileID: 8300000, guid: 9c12896cc10f0fa48ad81c0c24e9f123, type: 3}
+  drinkSound2: {fileID: 8300000, guid: 0c9d96965be81514391c84988c42eea5, type: 3}
+  taxSnort1: {fileID: 8300000, guid: e3ad8b5fcba7e5a4aa5014ea8b7379fb, type: 3}
+  taxSnort2: {fileID: 8300000, guid: fbf29dcbb647b624da277d2916ebe77f, type: 3}
+  taxSnort3: {fileID: 8300000, guid: c482b17f4a930ee438fc6e2980425074, type: 3}
+  taxGroan1: {fileID: 8300000, guid: 459f86650b4408544a886ea2449bab09, type: 3}
+  taxGroan2: {fileID: 8300000, guid: 5d77a8d3e6f28d24399385c591bde26c, type: 3}
+  taxGroan3: {fileID: 8300000, guid: 171aa34e8cafdbf42b2c08d1375c2445, type: 3}
+  taxGroan4: {fileID: 8300000, guid: 38abaecdea3d34e49bc65e1e149cc388, type: 3}
 --- !u!212 &212487338379290658
 SpriteRenderer:
   m_ObjectHideFlags: 1
