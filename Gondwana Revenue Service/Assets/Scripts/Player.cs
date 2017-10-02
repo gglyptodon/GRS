@@ -15,6 +15,8 @@ public class Player : MovingObject
     private int sanity;                         // Stores sanity points during level
     private int newforms;                       // Stores forms collected just during level. (or will...)
 
+	private bool isFacingRight;
+
 	//Start overrides the Start function of MovingObject
 	protected override void Start ()
 	{
@@ -26,6 +28,7 @@ public class Player : MovingObject
         //Same idea for sanity
         sanity = GameManager.instance.playerSanity;
 		//Call the Start function of the MovingObject base class.
+		isFacingRight = true;
 		base.Start ();
 	}
 
@@ -65,9 +68,27 @@ public class Player : MovingObject
 		{
 			//Call AttemptMove passing in the generic parameter Wall, since that is what Player may interact with if they encounter one (by attacking it)
 			//Pass in horizontal and vertical as parameters to specify the direction to move Player in.
+			Flip(horizontal); //added to flip the sprite
+			//todo trigger animation
+			animator.SetTrigger("playerIsMoving");
 			AttemptMove<Wall> (horizontal, vertical);
 		}
+		// todo maybe just end the animation instead of checking every time
+		//else if (horizontal == 0 && vertical == 0 && animator.GetBool("playerIsMoving") == true){
+		//	animator.SetBool ("playerIsMoving", false);
+		//}
 	}
+	// flip player sprite
+	private void Flip(float horizontal){
+		if (horizontal > 0 && !isFacingRight || horizontal < 0 && isFacingRight) {
+			isFacingRight = !isFacingRight;
+			Vector3 theScale = transform.localScale;
+			theScale.x *= -1;
+			transform.localScale = theScale;
+			
+		}
+	}
+
 
 	//AttemptMove overrides the AttemptMove function in the base class MovingObject
 	//AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
