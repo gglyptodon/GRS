@@ -25,7 +25,8 @@ public abstract class MovingObject : MonoBehaviour {
 		boxCollider.enabled = false;
 		hit = Physics2D.Linecast(start, end, blockingLayer);
 		boxCollider.enabled = true;
-		//todo flip sprite
+		print (start);
+		print (end);
 
 
 		if (hit.transform == null) {
@@ -56,6 +57,7 @@ public abstract class MovingObject : MonoBehaviour {
 			Vector3 newPosition = Vector3.MoveTowards (rb2D.position, end, inverseMoveTime*Time.deltaTime);
 			rb2D.MovePosition (newPosition);
 			sqrRemainingDistance = (transform.position - end).sqrMagnitude;
+			print ("rem:"+sqrRemainingDistance.ToString());
 			yield return null;
 		}
 	}

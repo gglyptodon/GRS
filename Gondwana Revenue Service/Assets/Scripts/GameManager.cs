@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-    public float levelStartDelay = 10f;	
-	public float turnDelay = .1f;
+    public float levelStartDelay = 3f;	
+	public float turnDelay = 0.1f;
 	public static GameManager instance = null;
 	public BoardManager boardScript;
 	public int playerAlcoholPoints = 0;
@@ -16,8 +16,13 @@ public class GameManager : MonoBehaviour {
 	private List<Enemy> enemies = new List<Enemy>(); // had to init as i didnt put anything via gui
 	private bool enemiesMoving;
 
-
+	public AudioClip taxGroan1;
+	public AudioClip taxGroan2;
+	public AudioClip taxGroan3;
+	public AudioClip taxGroan4;
 	// Text stuff
+	//load of messages
+	private string[] taxErrorList;
 
 	private Text taxErrorText; // text for level transition
 	private Text lesothosaurusText; // only used at the start
@@ -85,7 +90,8 @@ public class GameManager : MonoBehaviour {
 			taxErrorText.text = "TAX ERRORO todo";
 
 			lesothosaurusText.text = "";
-		
+			SoundManager.instance.RandomizeSfx(taxGroan1, taxGroan2, taxGroan3, taxGroan4);
+
 		}
 		taxErrorImage.SetActive (true); //display img
 		Invoke("HideTaxErrorImage", levelStartDelay); 
