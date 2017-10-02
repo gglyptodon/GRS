@@ -1,0 +1,16 @@
+Invalid address: please enter a valid Gondwana address.
+Payments from Bank of Theropods not supported.
+Missing receipts.
+Taxosaur account locked due to inactivity.
+Form 190854.5e had been deprecated, use 190854.5ez instead.
+Out of ink.
+Simplified version of 190854.5ez not sufficient for your tax situation, use 190854.5f instead.
+Math error leads to taxes equaling 112% of income.
+leptoceraptopsids ate the tax forms.
+leptoceraptopsids ate the tax forms (again).
+Payment submitted under wrong category, please pay again + late penalty.
+Gondwana Revenue Service website undergoing maintenance.
+Missing last years return.
+Gondwana Revenue Service "simplified" the tax code, start over.
+Math error leads to taxes equaling 209% of income.
+A missed field leads to taxes equaling -3% of income, start over or face Allosaurus the auditor.
