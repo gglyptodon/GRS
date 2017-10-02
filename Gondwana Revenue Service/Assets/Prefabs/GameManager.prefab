@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1047684942337162}
+  m_IsPrefabParent: 1
+--- !u!1 &1047684942337162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4051993757665854}
+  - component: {fileID: 114874213852671840}
+  - component: {fileID: 114512621503874474}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4051993757665854
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1047684942337162}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114512621503874474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1047684942337162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 711dd1a02c44696499c2e0b68399e40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardScript: {fileID: 0}
+  playerAlcoholPoints: 10
+  playersTurn: 1
+--- !u!114 &114874213852671840
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1047684942337162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 047b983727a0d8a4f914f9ac303c8359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colums: 8
+  rows: 8
+  wallCount:
+    maximum: 6
+    minimum: 3
+  taxFormCount:
+    maximum: 3
+    minimum: 1
+  alcoholCount:
+    maximum: 3
+    minimum: 1
+  taxOffice: {fileID: 1886512622647744, guid: 70e21a3a068731a4086d7c196189cfd0, type: 2}
+  floorTiles:
+  - {fileID: 1705792777185850, guid: 61d6b25b1714da743a89f08545c9680d, type: 2}
+  - {fileID: 1748129713142848, guid: a4ac3060edcd68c41a6fb9d900a8b556, type: 2}
+  - {fileID: 1691417117217172, guid: b20ac83bcdb169e48ad62ccb6db287d0, type: 2}
+  wallTiles:
+  - {fileID: 1355220441721828, guid: 867ac927d6f5bb54998ebd4778c9d7ec, type: 2}
+  taxFormTiles:
+  - {fileID: 1565440774568502, guid: f46f9c63dd921c04687e70cbaead2457, type: 2}
+  - {fileID: 1552788935664096, guid: 8ee74439229f4094087f20a33c9b33e9, type: 2}
+  - {fileID: 1583523072857382, guid: c407d5adb60d9c84b854e0302bf1fc8d, type: 2}
+  - {fileID: 1644849999555222, guid: 6b15db1d997621143a8fbd1ecbafe99e, type: 2}
+  alcoholTiles:
+  - {fileID: 1017059971344800, guid: bd9c29db0a3c06a4189858e79a528a7f, type: 2}
+  outerWallTiles:
+  - {fileID: 1766382069727414, guid: 75751b51810c73e4d8f55908a8859881, type: 2}
