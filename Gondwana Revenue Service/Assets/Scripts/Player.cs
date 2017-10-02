@@ -22,9 +22,19 @@ public class Player : MovingObject
 	private bool isFacingRight;
 	private bool isBlockedWhileMoving;
 
+    public AudioClip drinkSound1;
+    public AudioClip drinkSound2;
+    public AudioClip taxSnort1;
+    public AudioClip taxSnort2;
+    public AudioClip taxSnort3;
+    public AudioClip taxGroan1;
+    public AudioClip taxGroan2;
+    public AudioClip taxGroan3;
+    public AudioClip taxGroan4;
 
-	//Start overrides the Start function of MovingObject
-	protected override void Start ()
+    //Start overrides the Start function of MovingObject
+    protected override void Start ()
+
 	{
 		isBlockedWhileMoving = false;
 		//Get a component reference to the Player's animator component
@@ -175,6 +185,8 @@ public class Player : MovingObject
             sanity += pointsPerAlcohol;
 			//Disable the drunkenness object the player collided with.
 			other.gameObject.SetActive (false);
+            // play sounds
+            SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
 		}
 
 		//Check if the tag of the trigger collided with is a tax form.
@@ -186,6 +198,8 @@ public class Player : MovingObject
 
 			//Disable the taxes object the player collided with.
 			other.gameObject.SetActive (false);
+            // more sounds
+            SoundManager.instance.RandomizeSfx(taxSnort1, taxSnort2, taxSnort3);
 		}
 	}
 
