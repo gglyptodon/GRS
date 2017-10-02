@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;      //Allows us to use SceneManager
+using UnityEngine.UI;
 
 //Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
 public class Player : MovingObject
@@ -10,6 +11,9 @@ public class Player : MovingObject
 	public int pointsPerTaxes = 5;              //Number of points to add to player food points when picking up a taxes object.
     public int pointsPerWall = 5;               // Number of points to take from drunkenness and add to sanity when smashing walls
     public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
+	public Text playerSanityText;
+	public Text playerAlcoholPointsText;
+
 	private Animator animator;                  //Used to store a reference to the Player's animator component.
 	private int drunkenness;                           //Used to store player drunkenness points total during level.
     private int sanity;                         // Stores sanity points during level
@@ -29,14 +33,20 @@ public class Player : MovingObject
 
     //Start overrides the Start function of MovingObject
     protected override void Start ()
+
 	{
 		//Get a component reference to the Player's animator component
 		animator = GetComponent<Animator>();
 
 		//Get the current drunkenness point total stored in GameManager.instance between levels.
 		drunkenness = GameManager.instance.playerAlcoholPoints;
+		//playerAlcoholPointsText = GameObject.Find ("PlayerAlcoholPointsText").GetComponent<Text>;
+		playerAlcoholPointsText.text = "Drunkenness: "+drunkenness.ToString();
         //Same idea for sanity
         sanity = GameManager.instance.playerSanity;
+
+		//playerSanityText = GameObject.Find ("PlayerSanityText").GetComponent<Text>;
+		playerSanityText.text = "Sanity: " + sanity.ToString ();
 		//Call the Start function of the MovingObject base class.
 		isFacingRight = true;
 		base.Start ();
@@ -107,6 +117,8 @@ public class Player : MovingObject
 		//Every time player moves, subtract from drunkenness points total, add sanity.
 		drunkenness--;
         sanity++;
+		playerAlcoholPointsText.text = "Drunkenness: " + drunkenness.ToString ();
+		playerSanityText.text = "Sanity: " + sanity.ToString ();
 
 		//Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
 		base.AttemptMove <T> (xDir, yDir);
@@ -141,6 +153,8 @@ public class Player : MovingObject
         // smashing things reduced drunkenness and increases sanity
         sanity += pointsPerWall;
         drunkenness -= pointsPerWall;
+		playerAlcoholPointsText.text = "Drunkenness: " + drunkenness.ToString ();
+		playerSanityText.text = "Sanity: " + sanity.ToString ();
 
 	}
 
