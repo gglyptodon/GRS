@@ -52,9 +52,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 711dd1a02c44696499c2e0b68399e40e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelStartDelay: 10
+  turnDelay: 0.1
   boardScript: {fileID: 0}
   playerAlcoholPoints: 10
+  playerSanity: 100
   playersTurn: 1
+  taxGroan1: {fileID: 8300000, guid: 459f86650b4408544a886ea2449bab09, type: 3}
+  taxGroan2: {fileID: 8300000, guid: 5d77a8d3e6f28d24399385c591bde26c, type: 3}
+  taxGroan3: {fileID: 8300000, guid: 171aa34e8cafdbf42b2c08d1375c2445, type: 3}
+  taxGroan4: {fileID: 8300000, guid: 38abaecdea3d34e49bc65e1e149cc388, type: 3}
 --- !u!114 &114874213852671840
 MonoBehaviour:
   m_ObjectHideFlags: 1
