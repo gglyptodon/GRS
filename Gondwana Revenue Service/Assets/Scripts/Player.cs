@@ -20,11 +20,13 @@ public class Player : MovingObject
     private int newforms;                       // Stores forms collected just during level. (or will...)
 
 	private bool isFacingRight;
+	private bool isBlockedWhileMoving;
 
 
 	//Start overrides the Start function of MovingObject
 	protected override void Start ()
 	{
+		isBlockedWhileMoving = false;
 		//Get a component reference to the Player's animator component
 		animator = GetComponent<Animator>();
 
@@ -52,10 +54,11 @@ public class Player : MovingObject
 	}
 
 
-	private void Update ()
+	private void FixedUpdate ()
 	{
 		//If it's not the player's turn, exit the function.
 		if(!GameManager.instance.playersTurn) return;
+		if (isBlockedWhileMoving) return;
 
 		int horizontal = 0;     //Used to store the horizontal move direction.
 		int vertical = 0;       //Used to store the vertical move direction.
@@ -107,6 +110,7 @@ public class Player : MovingObject
 		//Every time player moves, subtract from drunkenness points total, add sanity.
 		drunkenness--;
         sanity++;
+		isBlockedWhileMoving = true;
 		playerAlcoholPointsText.text = "Drunkenness: " + drunkenness.ToString ();
 		playerSanityText.text = "Sanity: " + sanity.ToString ();
 
@@ -121,10 +125,10 @@ public class Player : MovingObject
 		{
 			//Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
 		}
-
+		isBlockedWhileMoving = false;
 
 		//Set the playersTurn boolean of GameManager to false now that players turn is over.
-		//GameManager.instance.playersTurn = false;
+		GameManager.instance.playersTurn = false;
 	}
 
 
