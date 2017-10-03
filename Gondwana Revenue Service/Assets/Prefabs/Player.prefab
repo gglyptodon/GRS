@@ -122,9 +122,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   restartLevelDelay: 1
-  pointsPerAlcohol: 10
-  pointsPerTaxes: 1
-  pointsPerWall: 5
+  pointsPerAlcohol: 15
+  pointsPerTaxes: 10
+  pointsPerWall: 2
   wallDamage: 1
   playerSanityText: {fileID: 0}
   playerAlcoholPointsText: {fileID: 0}

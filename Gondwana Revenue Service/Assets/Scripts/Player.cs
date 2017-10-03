@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class Player : MovingObject
 {
 	public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
-	public int pointsPerAlcohol = 5;              //Number of points to add to player drunkenness points when picking up a alcohol drink object.
-	public int pointsPerTaxes = 5;              //Number of points to add to player food points when picking up a taxes object.
-    public int pointsPerWall = 5;               // Number of points to take from drunkenness and add to sanity when smashing walls
+	public int pointsPerAlcohol = 10;              //Number of points to add to player drunkenness points when picking up a alcohol drink object.
+	public int pointsPerTaxes = 10;              //Number of points to add to player food points when picking up a taxes object.
+    public int pointsPerWall = 2;               // Number of points to take from drunkenness and add to sanity when smashing walls
     public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
 	public Text playerSanityText;
 	public Text playerAlcoholPointsText;
@@ -43,12 +43,12 @@ public class Player : MovingObject
 		//Get the current drunkenness point total stored in GameManager.instance between levels.
 		drunkenness = GameManager.instance.playerAlcoholPoints;
 		//playerAlcoholPointsText = GameObject.Find ("PlayerAlcoholPointsText").GetComponent<Text>;
-		playerAlcoholPointsText.text = "Drunkenness: "+drunkenness.ToString();
+		playerAlcoholPointsText.text = "Drunkenness: "+drunkenness.ToString() + '%';
         //Same idea for sanity
         sanity = GameManager.instance.playerSanity;
 
 		//playerSanityText = GameObject.Find ("PlayerSanityText").GetComponent<Text>;
-		playerSanityText.text = "Sanity: " + sanity.ToString ();
+		playerSanityText.text = "Sanity: " + sanity.ToString () + '%';
 		//Call the Start function of the MovingObject base class.
 		isFacingRight = true;
 		base.Start ();
@@ -119,10 +119,9 @@ public class Player : MovingObject
 	{
 		//Every time player moves, subtract from drunkenness points total, add sanity.
 		drunkenness--;
-        sanity++;
 		isBlockedWhileMoving = true;
-		playerAlcoholPointsText.text = "Drunkenness: " + drunkenness.ToString ();
-		playerSanityText.text = "Sanity: " + sanity.ToString ();
+		//playerAlcoholPointsText.text = "Drunkenness: " + drunkenness.ToString ();
+		//playerSanityText.text = "Sanity: " + sanity.ToString ();
 
 		//Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
 		base.AttemptMove <T> (xDir, yDir);
@@ -139,6 +138,7 @@ public class Player : MovingObject
 
 		//Set the playersTurn boolean of GameManager to false now that players turn is over.
 		GameManager.instance.playersTurn = false;
+        CheckIfGameOver();
 	}
 
 
@@ -159,7 +159,7 @@ public class Player : MovingObject
         drunkenness -= pointsPerWall;
 		playerAlcoholPointsText.text = "Drunkenness: " + drunkenness.ToString ();
 		playerSanityText.text = "Sanity: " + sanity.ToString ();
-
+        CheckIfGameOver();
 	}
 
 
@@ -182,7 +182,7 @@ public class Player : MovingObject
 		{
 			//Add pointsPerAlcohol to the players current drunkenness total.
 			drunkenness += pointsPerAlcohol;
-            sanity += pointsPerAlcohol;
+            sanity += pointsPerAlcohol / 3;
 			//Disable the drunkenness object the player collided with.
 			other.gameObject.SetActive (false);
             // play sounds
@@ -201,6 +201,8 @@ public class Player : MovingObject
             // more sounds
             SoundManager.instance.RandomizeSfx(taxSnort1, taxSnort2, taxSnort3);
 		}
+        // after every collision check if sanity/drunkeness have reached their max/min
+        CheckIfGameOver();
 	}
 
 
@@ -209,22 +211,6 @@ public class Player : MovingObject
 	{
 		//Load the last scene loaded, in this case Main, the only scene in the game.
 		SceneManager.LoadScene (0);
-	}
-
-
-	//LoseDrunkenness is called when an enemy attacks the player.
-	//It takes a parameter loss which specifies how many points to lose.
-    // can probably be deleted?
-	public void LoseDrunkenness (int loss)
-	{
-		//Set the trigger for the player animator to transition to the playerHit animation.
-		animator.SetTrigger ("playerHit");
-
-		//Subtract lost drunkenness points from the players total.
-		drunkenness -= loss;
-
-		//Check to see if game has ended.
-		CheckIfGameOver ();
 	}
 
 
@@ -241,6 +227,17 @@ public class Player : MovingObject
         {
             GameManager.instance.GameOver();
         }
+        // keep sanity and drunkeness within bounds
+        if (sanity > 100)
+        {
+            sanity = 100;
+        }
+        if (drunkenness < 0)
+        {
+            drunkenness = 0;
+        }
+        playerAlcoholPointsText.text = "Drunkenness: " + drunkenness.ToString() + '%';
+        playerSanityText.text = "Sanity: " + sanity.ToString() + '%';
     }
 
 

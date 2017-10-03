@@ -52,10 +52,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 711dd1a02c44696499c2e0b68399e40e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelStartDelay: 10
+  levelStartDelay: 3
   turnDelay: 0.1
   boardScript: {fileID: 0}
-  playerAlcoholPoints: 10
+  playerAlcoholPoints: 0
   playerSanity: 100
   playersTurn: 1
   taxGroan1: {fileID: 8300000, guid: 459f86650b4408544a886ea2449bab09, type: 3}
