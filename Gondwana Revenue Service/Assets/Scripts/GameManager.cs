@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour {
     public float levelStartDelay = 3f;	
@@ -22,15 +23,41 @@ public class GameManager : MonoBehaviour {
 	public AudioClip taxGroan4;
 	// Text stuff
 	//load of messages
-	private string[] taxErrorList;
+	public string[] taxErrorList;
+	private int[] taxErrorSanityPenaltyList = new int[100];
 
-	private Text taxErrorText; // text for level transition
+
+	private Text taxErrorText;
+	private Text winText;
+	public string taxErrorPool;
+/*       
+	"Invalid address: please enter a valid Gondwana address.;Payments from Bank of Theropods not supported.;Missing receipts.;Taxosaur account locked due to inactivity;"; 
+	taxErrorPool = taxErrorPool + "Form 190854.5e had been deprecated, use 190854.5ez instead.;";
+	taxErrorPool = taxErrorPool +	"Out of ink.;";
+		"Simplified version of 190854.5ez not sufficient for your tax situation, use 190854.5f instead.;\" +
+		"Math error leads to taxes equaling 112% of income.;" +
+    	"Leptoceraptopsids ate the tax forms.;\" +
+		"Leptoceraptopsids ate the tax forms (again).;\" +
+		"Payment submitted under wrong category, please pay again + late penalty.;\" +
+		"Gondwana Revenue Service website undergoing maintenance.;\" +
+		"Missing last years return.;\" +
+		"Gondwana Revenue Service simplified the tax code, start over.;\"+
+		"Math error leads to taxes equaling 209% of income.;\"+
+		"A missed field leads to taxes equaling -3% of income, start over or face Allosaurus the auditor.;";
+*/
+	// text for level transition
 	private Text lesothosaurusText; // only used at the start
 
 
 	private GameObject taxErrorImage; // image for level transition
+	private GameObject winImage;
 
 	private bool doingSetup = true;
+
+	void Start(){
+
+
+	}
 
 	// Use this for initialization
 	void Awake () {
@@ -40,6 +67,21 @@ public class GameManager : MonoBehaviour {
 			Destroy (gameObject);
 		}
 		DontDestroyOnLoad (gameObject);
+
+		taxErrorPool = 	"Invalid address: please enter a valid Gondwana address.;Payments from Bank of Theropods not supported.;Missing receipts.;Taxosaur account locked due to inactivity.;"; 
+		taxErrorPool = taxErrorPool +"Form 190854.5e had been deprecated, use 190854.5ez instead.;Missing last years return.;Gondwana Revenue Service simplified the tax code, start over.;";
+		taxErrorPool = taxErrorPool +"Math error leads to taxes equaling 209% of income.;Simplified version of 190854.5ez not sufficient for your tax situation, use 190854.5f instead.;";
+		taxErrorPool = taxErrorPool + "Math error leads to taxes equaling 112% of income.;Leptoceraptopsids ate the tax forms (again).;Payment submitted under wrong category, please pay again + late penalty.;";
+		taxErrorPool = taxErrorPool +"Leptoceraptopsids ate the tax forms.;Gondwana Revenue Service website undergoing maintenance.;";
+		taxErrorPool = taxErrorPool +	"Out of ink.;A missed field leads to taxes equaling -3% of income, start over or face Allosaurus the auditor.;";
+
+		//taxErrorList = taxErrorPool.Split (";");
+		taxErrorList = taxErrorPool.Split(';'); 
+		for (int i =0; i<taxErrorList.Length;i++){
+			taxErrorSanityPenaltyList [i] = Random.Range (0, 40); //todo check if that's a good idea 
+		}
+		print (taxErrorList);
+
 		boardScript = GetComponent<BoardManager>();
 		InitGame ();
 	}
@@ -71,29 +113,39 @@ public class GameManager : MonoBehaviour {
         }
 	
 	public void GameOver (){
-		taxErrorText.text = "gameover";
-		taxErrorImage.SetActive (true);
+		winText.text = "You... win (?)";
+		taxErrorImage.SetActive (false);
+		winImage.SetActive (true);
 		enabled = false;
 	}
 	// Update is called once per frame
 	void InitGame () {
 		doingSetup = true;
 		taxErrorImage = GameObject.Find ("TaxErrorImage"); // aka levelImage
+		winImage = GameObject.Find("WinImage");
 		lesothosaurusText = GameObject.Find("LesothosaurusText").GetComponent<Text>();
 		taxErrorText = GameObject.Find("TaxErrorText").GetComponent<Text>(); // aka LevelText
+		winText = GameObject.Find("WinText").GetComponent<Text>();
 		if (level == 1) {
 			taxErrorText.text = "It's Tax Day... ";
 			lesothosaurusText.text = "...For Lesothosaurus";
 
 		} else {
 			taxErrorText.color = Color.red;
-			taxErrorText.text = "TAX ERRORO todo";
+			taxErrorText.fontSize = 42;
+		
+			int randomerrorindex = Random.Range (0, taxErrorList.Length);
+			//print (taxErrorList.Length);
+			//print (randomerrorindex);
+			//print ("RAND");
+			taxErrorText.text = taxErrorList[randomerrorindex];
 
 			lesothosaurusText.text = "";
 			SoundManager.instance.RandomizeSfx(taxGroan1, taxGroan2, taxGroan3, taxGroan4);
 
 		}
 		taxErrorImage.SetActive (true); //display img
+		winImage.SetActive(false);
 		Invoke("HideTaxErrorImage", levelStartDelay); 
 
 		enemies.Clear (); // todo remove unneccessary things from the tutorial
@@ -104,6 +156,7 @@ public class GameManager : MonoBehaviour {
 	void HideTaxErrorImage(){
 		//Disable img
 		taxErrorImage.SetActive(false);
+		winImage.SetActive (false);
 		doingSetup = false;
 		
 	}
