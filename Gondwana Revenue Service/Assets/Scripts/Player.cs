@@ -12,8 +12,8 @@ public class Player : MovingObject
 	public int pointsPerTaxes = 10;              //Number of points to add to player food points when picking up a taxes object.
     public int pointsPerWall = 2;               // Number of points to take from drunkenness and add to sanity when smashing walls
     public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
-    public double formsCollected = 0d;
-    public double percentComplete = 0d;          //function to never reach a hundred, but increase with formsCollected;
+    public double formsCollected;
+    public double percentComplete;          //function to never reach a hundred, but increase with formsCollected;
 	public Text playerSanityText;
 	public Text playerAlcoholPointsText;
     public Text playerPercentCompleteText;
@@ -55,6 +55,7 @@ public class Player : MovingObject
 
 		//playerSanityText = GameObject.Find ("PlayerSanityText").GetComponent<Text>;
 		playerSanityText.text = "Sanity: " + sanity.ToString () + '%';
+        GetPercentComplete();
         playerPercentCompleteText.text = "% complete: " + percentComplete.ToString();
 
 		//Call the Start function of the MovingObject base class.
@@ -224,7 +225,7 @@ public class Player : MovingObject
 
 
 	//CheckIfGameOver checks if the player is out of drunkenness points and if so, ends the game.
-	private void CheckIfGameOver ()
+	public void CheckIfGameOver ()
 	{
 		//Check if drunkenness point total is less than or equal to zero.
 		if (drunkenness >= 100) 
@@ -253,20 +254,9 @@ public class Player : MovingObject
         //playerPercentCompleteText = "% complete" + 
     }
 
-    private void GetPercentComplete () {
-        if (formsCollected == 0)
-        {
-            percentComplete = 0f;
-        }
-        else if (formsCollected == 1)
-        {
-            percentComplete = 25f;
-        }
-        else
-        {
-            percentComplete = 100d - (100d / Math.Sqrt(formsCollected));
-            //percentComplete = 100d - (100d / formsCollected);
-        }
+    private void GetPercentComplete ()
+    {
+        percentComplete = (1d / (1d + Math.Pow(1.15d, formsCollected * -1d)) - 0.5d) * 200d;
     }
 
 
