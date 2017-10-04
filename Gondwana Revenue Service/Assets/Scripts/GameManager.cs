@@ -139,8 +139,9 @@ public class GameManager : MonoBehaviour {
 			//print (randomerrorindex);
 			//print ("RAND");
 			taxErrorText.text = taxErrorList[randomerrorindex];
+            GameManager.instance.playerSanity -= taxErrorSanityPenaltyList[randomerrorindex];
 
-			lesothosaurusText.text = "";
+            lesothosaurusText.text = "";
 			SoundManager.instance.RandomizeSfx(taxGroan1, taxGroan2, taxGroan3, taxGroan4);
 
 		}
