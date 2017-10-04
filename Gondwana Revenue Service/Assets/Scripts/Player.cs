@@ -11,8 +11,11 @@ public class Player : MovingObject
 	public int pointsPerTaxes = 10;              //Number of points to add to player food points when picking up a taxes object.
     public int pointsPerWall = 2;               // Number of points to take from drunkenness and add to sanity when smashing walls
     public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
+    public int formsCollected = 0;
+    public float percentComplete = 0f;          //function to never reach a hundred, but increase with formsCollected;
 	public Text playerSanityText;
 	public Text playerAlcoholPointsText;
+    public Text playerPercentCompleteText;
 
 	private Animator animator;                  //Used to store a reference to the Player's animator component.
 	private int drunkenness;                           //Used to store player drunkenness points total during level.
@@ -46,9 +49,13 @@ public class Player : MovingObject
 		playerAlcoholPointsText.text = "Drunkenness: "+drunkenness.ToString() + '%';
         //Same idea for sanity
         sanity = GameManager.instance.playerSanity;
+        // Same for forms collected
+        formsCollected = GameManager.instance.playerFormsCollected;
 
 		//playerSanityText = GameObject.Find ("PlayerSanityText").GetComponent<Text>;
 		playerSanityText.text = "Sanity: " + sanity.ToString () + '%';
+        playerPercentCompleteText.text = "% complete: " + percentComplete.ToString();
+
 		//Call the Start function of the MovingObject base class.
 		isFacingRight = true;
 		base.Start ();
@@ -61,6 +68,7 @@ public class Player : MovingObject
 		//When Player object is disabled, store the current local drunkenness total in the GameManager so it can be re-loaded in next level.
 		GameManager.instance.playerAlcoholPoints = drunkenness;
         GameManager.instance.playerSanity = sanity;
+        GameManager.instance.playerFormsCollected = formsCollected;
 	}
 
 
@@ -195,7 +203,7 @@ public class Player : MovingObject
 			//Add pointsPerTaxes to players drunkenness points total
 			sanity -= pointsPerTaxes;
             drunkenness -= pointsPerTaxes;
-
+            formsCollected += 1;
 			//Disable the taxes object the player collided with.
 			other.gameObject.SetActive (false);
             // more sounds
@@ -238,9 +246,26 @@ public class Player : MovingObject
         }
         playerAlcoholPointsText.text = "Drunkenness: " + drunkenness.ToString() + '%';
         playerSanityText.text = "Sanity: " + sanity.ToString() + '%';
+
+        GetPercentComplete();
+        playerPercentCompleteText.text = "% Complete: " + percentComplete.ToString();
+        //playerPercentCompleteText = "% complete" + 
     }
 
-
+    private void GetPercentComplete () {
+        if (formsCollected == 0)
+        {
+            percentComplete = 0f;
+        }
+        else if (formsCollected == 1)
+        {
+            percentComplete = 25f;
+        }
+        else
+        {
+            percentComplete = 100 - (100 / formsCollected);
+        }
+    }
 
 
 
