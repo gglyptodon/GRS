@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
 	public BoardManager boardScript;
 	public int playerAlcoholPoints = 0;
     public int playerSanity = 100;
-    public int playerFormsCollected;
+    public double playerFormsCollected = 0f;
 	[HideInInspector] public bool playersTurn = true;
 
 	private int level = 1;

@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;      //Allows us to use SceneManager
 using UnityEngine.UI;
+using System;
 
 //Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
 public class Player : MovingObject
@@ -11,8 +12,8 @@ public class Player : MovingObject
 	public int pointsPerTaxes = 10;              //Number of points to add to player food points when picking up a taxes object.
     public int pointsPerWall = 2;               // Number of points to take from drunkenness and add to sanity when smashing walls
     public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
-    public int formsCollected = 0;
-    public float percentComplete = 0f;          //function to never reach a hundred, but increase with formsCollected;
+    public double formsCollected = 0d;
+    public double percentComplete = 0d;          //function to never reach a hundred, but increase with formsCollected;
 	public Text playerSanityText;
 	public Text playerAlcoholPointsText;
     public Text playerPercentCompleteText;
@@ -263,7 +264,8 @@ public class Player : MovingObject
         }
         else
         {
-            percentComplete = 100 - (100 / formsCollected);
+            percentComplete = 100d - (100d / Math.Sqrt(formsCollected));
+            //percentComplete = 100d - (100d / formsCollected);
         }
     }
 
