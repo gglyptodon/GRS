@@ -57,11 +57,14 @@ MonoBehaviour:
   boardScript: {fileID: 0}
   playerAlcoholPoints: 0
   playerSanity: 100
+  playerFormsCollected: 0
   playersTurn: 1
   taxGroan1: {fileID: 8300000, guid: 459f86650b4408544a886ea2449bab09, type: 3}
   taxGroan2: {fileID: 8300000, guid: 5d77a8d3e6f28d24399385c591bde26c, type: 3}
   taxGroan3: {fileID: 8300000, guid: 171aa34e8cafdbf42b2c08d1375c2445, type: 3}
   taxGroan4: {fileID: 8300000, guid: 38abaecdea3d34e49bc65e1e149cc388, type: 3}
+  taxErrorList: []
+  taxErrorPool: 
 --- !u!114 &114874213852671840
 MonoBehaviour:
   m_ObjectHideFlags: 1

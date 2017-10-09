@@ -75,6 +75,9 @@ public class GameManager : MonoBehaviour {
 		taxErrorPool = taxErrorPool + "Math error leads to taxes equaling 112% of income.;Leptoceraptopsids ate the tax forms (again).;Payment submitted under wrong category, please pay again + late penalty.;";
 		taxErrorPool = taxErrorPool +"Leptoceraptopsids ate the tax forms.;Gondwana Revenue Service website undergoing maintenance.;";
 		taxErrorPool = taxErrorPool +	"Out of ink.;A missed field leads to taxes equaling -3% of income, start over or face Allosaurus the auditor.;";
+        taxErrorPool = taxErrorPool + "Out of paper.; Gondwana Revenue Service closed for public holiday;500 Server Error; Out of coffee; Form 502888e has been deprecated, use 602888e instead.;";
+        taxErrorPool = taxErrorPool + "Tax forms blew away in wind; Taxosaur account locked for necessary forms, please upgrade; Aquilops peed on tax forms; Aquilops peed on tax forms (again);";
+
 
 		//taxErrorList = taxErrorPool.Split (";");
 		taxErrorList = taxErrorPool.Split(';'); 
@@ -148,6 +151,10 @@ public class GameManager : MonoBehaviour {
 		}
 		taxErrorImage.SetActive (true); //display img
 		winImage.SetActive(false);
+        if (playerFormsCollected > 0)
+        {
+            playerFormsCollected--;
+        }
 		Invoke("HideTaxErrorImage", levelStartDelay); 
 
 		enemies.Clear (); // todo remove unneccessary things from the tutorial

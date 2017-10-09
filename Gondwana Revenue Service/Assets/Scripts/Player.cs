@@ -128,7 +128,7 @@ public class Player : MovingObject
 	protected override void AttemptMove <T> (int xDir, int yDir)
 	{
 		//Every time player moves, subtract from drunkenness points total, add sanity.
-		drunkenness--;
+		//drunkenness--;
 		isBlockedWhileMoving = true;
 		//playerAlcoholPointsText.text = "Drunkenness: " + drunkenness.ToString ();
 		//playerSanityText.text = "Sanity: " + sanity.ToString ();
@@ -256,7 +256,7 @@ public class Player : MovingObject
 
     private void GetPercentComplete ()
     {
-        percentComplete = (1d / (1d + Math.Pow(1.15d, formsCollected * -1d)) - 0.5d) * 200d;
+        percentComplete = (1d / (1d + Math.Pow(1.14d, formsCollected * -1d)) - 0.5d) * 200d;
     }
 
 
