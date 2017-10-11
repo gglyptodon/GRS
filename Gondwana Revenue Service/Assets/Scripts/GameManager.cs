@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour {
 		//taxErrorList = taxErrorPool.Split (";");
 		taxErrorList = taxErrorPool.Split(';'); 
 		for (int i =0; i<taxErrorList.Length;i++){
-			taxErrorSanityPenaltyList [i] = Random.Range (0, 40); //todo check if that's a good idea 
+			taxErrorSanityPenaltyList [i] = Random.Range (0, 20); //todo check if that's a good idea 
 		}
 		print (taxErrorList);
 
@@ -153,7 +153,11 @@ public class GameManager : MonoBehaviour {
 		winImage.SetActive(false);
         if (playerFormsCollected > 0)
         {
-            playerFormsCollected--;
+            // chance of regress
+            if (Random.Range(0, 100) > 70)
+            {
+                playerFormsCollected--;
+            }
         }
 		Invoke("HideTaxErrorImage", levelStartDelay); 
 

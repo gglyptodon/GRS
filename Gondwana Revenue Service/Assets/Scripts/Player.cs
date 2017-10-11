@@ -192,7 +192,7 @@ public class Player : MovingObject
 		{
 			//Add pointsPerAlcohol to the players current drunkenness total.
 			drunkenness += pointsPerAlcohol;
-            sanity += pointsPerAlcohol / 3;
+            sanity += pointsPerAlcohol / 2;
 			//Disable the drunkenness object the player collided with.
 			other.gameObject.SetActive (false);
             // play sounds
